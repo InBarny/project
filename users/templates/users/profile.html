@@ -1,0 +1,87 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Профиль{% endblock title %}
+
+{% block content %}
+    <div class="d-flex">
+        <div class="windowp d-flex --bg-black-- rounded">
+            <form action="{% url "users:profile" %}" method="post" enctype="multipart/form-data">
+                <h2 class="mb-2"; style="color:white">Профиль</h2>
+                {% csrf_token %}
+                <div class="d-flex">
+                    <div class="1box">
+                        <div class="col-md-12 mb-3">
+                            {% if user.image %}
+                                <img src="{{ user.image.url }}" alt="Avatar" class="img-fluid"
+                                style="max-width: 150px; max-height: 150px;">
+                            {% else %}
+                                <img src="{% static 'img/noimage.jpg' %}" alt="Avatar" class="img-fluid"
+                                style="max-width: 150px; max-height: 150px;">
+                            {% endif %}
+                            <input type="file" class="form-control form-styleprofile mt-2" id="id_image"
+                            name="image" accept="image/*">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_first_name" class="form-label">имя</label>
+                            <input type="text" class="form-control form-styleprofile" id="id_first_name"
+                            name="first_name" placeholder="Your First Name" value="{{ form.first_name.value }}"
+                            required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_last_name" class="form-label">фамилия</label>
+                            <input type="text" class="form-control form-styleprofile bg-withe" id="id_last_name"
+                            name="last_name" placeholder="Your Last Name" value="{{ form.last_name.value }}"
+                            required>
+                        </div>
+                    </div>
+                    <div class="box2">
+                        <div class="col-md-12 mb-3">
+                            <label for="id_username" class="form-label">Имя пользователя</label>
+                            <input type="text" class="form-control form-styleprofile" id="id_username"
+                            name="username" placeholder="Your Username" value="{{ form.username.value }}"
+                            required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_email" class="form-label">почта</label>
+                            <input type="email" class="form-control form-styleprofile" id="id_email"
+                            name="email" placeholder="Your Email" value="{{ form.email.value }}"
+                            required>
+                        </div>
+                    </div>
+                </div>
+                <div class="btns d-flex gap-4 mt-4">
+                    <button type="submit" class="profile-btn">Сохранить</button>
+                    <a class="profile-btn" href="{% url "user:logout" %}">Выход</a>
+                </div>
+                {% comment %} заказы orders вывод для челикса {% endcomment %}
+            </form>
+            <div class="orders">
+                <h2 class="mb-2"; style="color:white">Ваши Заказы</h2>   
+                {% if orders %}
+                    <div class="orderss">
+                        {% for order in orders %}
+                            <div class="order-cart">
+                                <h5 class="order-title">Заказ № {{ order.id }}</h5>
+                                <p class="order-desc">
+                                    {% for item in order.items.all %}
+                                        <div class="orders-carts">
+                                            <span class="dadad">Имя: </span><a class=""; style="color:white"; href="{% url 'main:product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                                            <br>
+                                            <span class="dadad">Количество:</span> {{ item.quantity }},
+                                            <span class="dadad">Цена: {{ item.price|floatformat:0 }} ₽</span> <br>
+                                            <span class="dadad">Дата:</span>  {{ order.created }}
+                                            <br>
+                                        </div>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h4 class="notorders">Вы еще ничего не заказали...</h4>
+                {% endif %}         
+            </div>
+        </div> 
+{% endblock content %}
+

@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Логин{% endblock title %}
+
+{% block content %}
+    <section class="login d-flex">
+        <div class="login-title">
+            <h2>Логин</h2>
+            <form class="login-form" action="{% url "user:login" %}" method="post"> <!-- Добавили класс -->
+                {% csrf_token %}
+                {% if request.GET.next %}
+                    <input type="hidden" name="next" value="{{ request.GET.next }}">
+                {% endif %}
+                <div class="mb-3">
+                    <label for="id_username" class="form-label form-style">Имя пользователя</label>
+                    <input type="text" class="form-control form-style"
+                    value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                    name="username" id="id_username" placeholder="Имя" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_password" class="form-label form-style">Пароль</label>
+                    <input type="password" class="form-control form-style"
+                    name="password" id="id_password" placeholder="Пароль" required>
+                </div>
+                <button type="submit" class="login-btn form-style">Логин</button>
+            </form>
+            <div class="reset-pass">
+                <hr>
+                <div class="mt-3">
+                    <a href="#">сброс пароля</a> | <a href="{% url 'user:registration' %}">создать аккаунт</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
