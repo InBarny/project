@@ -1,0 +1,139 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Главная{%endblock title %}
+{% block content %}
+
+<header class="header" id="header">
+    <!--header-start-->
+    <div class="container">
+      <img src="{% static 'img/gradient-non-auth.png' %}" class="promo-non-auth__gradient">
+        <div class="voi button-subscription__button button button_type_gradient" style="width: 400px; padding: 30px; text-align: center;">
+          <span><a href="/shop/">Все продукты</a></span>
+        </div>
+        <h1 class="animated fadeInDown delay-07s">Добро пожаловать в Книжную лавку</h1>
+        <ul class="we-create animated fadeInUp delay-1s">
+            <li style="color: white;">Мы - книжный магазин, который...</li>
+        </ul>
+        {% comment %} <a class="link animated fadeInUp delay-1s servicelink" href="#service">Get Started</a> {% endcomment %}
+    </div>
+</header>
+<!--header-end-->
+<section class="main-section" id="service">
+    <!--main-section-start-->
+    <div class="container">
+        <h2>Категории</h2>
+        <h6>у нас большое разнообразие книг</h6>
+        <div class="row">
+            <div class="col-lg-4 col-sm-6 wow fadeInLeft delay-05s">
+                <div class="service-list">
+                    <div class="service-list-col2">
+                        <h1>• Классика</h1>
+                        <p style="color: darkgrey;">Вечные произведения, исследующие глубокие философские и моральные вопросы человеческой жизни.</p>
+                    </div>
+                </div>
+                <div class="service-list">
+                    <div class="service-list-col2">
+                        <h1>• Фантастика</h1>
+                        <p style="color: darkgrey;">Увлекательные истории о возможном будущем, альтернативных реальностях и технологиях, выходящих за пределы современности.</p>
+                    </div>
+                </div>
+                <div class="service-list">
+                    <div class="service-list-col2">
+                       <h1>• Романтика</h1>
+                       <p style="color: darkgrey;">Трогательные сюжеты о любви, страсти и эмоциональных связях между людьми.</p>
+                    </div>
+                </div>
+                <div class="service-list">
+                    <div class="service-list-col2">
+                        <h1>• Программирование</h1>
+                        <p style="color: darkgrey;">Много жанров-книг по программированию ждут тебя.</p>
+                    </div>
+                </div>
+            </div>
+            <figure class="col-lg-8 col-sm-6  text-right wow fadeInUp delay-02s">
+                <div class="product-list">
+                    <div class="items d-flex flex-wrap">
+                        {% for product in products %}
+                            <div class="item">
+                                <a href="{{ product.get_absolute_url }}" class="flower-card d-flex flex-column align-items-center text-center">
+                                    <div class="flower-card-img-container">
+                                        <img style="max-width: 300px;" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.jpg' %}{% endif %}" class="flower-card-img" alt="">
+                                    </div>
+                                    {% if product.discount %}
+                                    {% else %}
+                                        <p class="flower-card-price">{{ product.price }} ₽</p>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </figure>
+        </div>
+    </div>
+</section>
+<!--main-section-end-->
+
+
+
+<section class="main-section alabaster">
+    <!--main-section alabaster-start-->
+    <div class="container">
+        <div class="row">
+          <div class="col-lg-5 col-sm-4 wow fadeInLeft">
+            <iframe 
+                src="https://yandex.ru/map-widget/v1/?ll=37.525894%2C55.707498&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjcxNjI1MhJI0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINCc0L7RgdC60LjQvNC_0YPQu9GM0YHQutC-0Lkg0YbQtdC90YLRgCwgMzUiCg3jXcJCFXkMVEI%2C&z=19.5" 
+                width="100%" 
+                height="300" 
+                frameborder="0"
+                allowfullscreen="true">
+            </iframe>
+          </div>
+            <div class="col-lg-7 col-sm-8 featured-work">
+                <h2 style="color: white;">Наши плюсы</h2>
+                <P class="padding-b"></P>
+                <div class="featured-box">
+                    <div class="featured-box-col1 wow fadeInRight delay-02s">
+                        <i class="fa fa-magic"></i>
+                    </div>
+                    <div class="featured-box-col2 wow fadeInRight delay-02s">
+                        <h3 style="color: white;">Быстрая доставка</h3>
+                        <p style="color: darkgrey;">Мы гарантируем, что ваш заказ будет доставлен в кратчайшие сроки, чтобы вы могли наслаждаться своими покупками как можно быстрее!</p>
+                    </div>
+                </div>
+                <div class="featured-box">
+                    <div class="featured-box-col1 wow fadeInRight delay-04s">
+                        <i class="fa fa-gift"></i>
+                    </div>
+                    <div class="featured-box-col2 wow fadeInRight delay-04s">
+                        <h3 style="color: white;">Элегантная упаковка</h3>
+                        <p style="color: darkgrey;">
+                          Каждое ваше изделие приходит в тщательно продуманной упаковке, что делает его идеальным для подарков или личного использования.
+                        </p>
+                    </div>
+                </div>
+                <div class="featured-box">
+                    <div class="featured-box-col1 wow fadeInRight delay-06s">
+                        <i class="fa fa-dashboard"></i>
+                    </div>
+                    <div class="featured-box-col2 wow fadeInRight delay-06s">
+                        <h3 style="color: white;">Доступность и удобство навигации</h3>
+                        <p style="color: darkgrey;">Наши товары и контент организованы так, чтобы вы быстро находили нужные книги с минимальными усилиями.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer app__footer">
+    <div class="inner footer__inner">
+        <div class="footer__box footer__box_menu">
+            <a href="#" target="_blank" class="footer__text footer__text_link">Условия продажи</a>
+            <a href="#" target="_blank" class="footer__text footer__text_link">Служба поддержки</a>
+        </div>
+        <div class="footer__box footer__box_info">
+            <div class="footer__text footer__text_info">©InBarny «Books» <a href="https://github.com/InBarny" style="color: aliceblue;"> мой Github</a></div>
+        </div>
+    </div>
+  </footer>
+{% endblock content %}

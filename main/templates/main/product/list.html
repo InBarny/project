@@ -1,0 +1,66 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Магазин{% endblock title %}
+
+{% block content %}
+<div class="category-header">
+    <h3 style="margin-left: 100px; font-size: 48px; color: white;">{% if category %}Жанр {{ category.name }}{% else %}ВСЕ Жанры{% endif %}</h3>
+    <div class="category-nav">
+        <div class="category-links">
+            <a href="{% url 'main:product_list' %}" class="category-link {% if not category %}selected{% endif %}">
+                ВСЕ
+            </a>
+            {% for c in categories %}
+                <a href="{{ c.get_absolute_url }}" class="category-link {% if category.slug == c.slug %}selected{% endif %}">
+                    {{ c.name }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="llist">
+    <div class="mainlist">
+        <div class="product-list">
+            <div class="items d-flex">
+                {% for product in products %}
+                    <div class="item">
+                        <a href="{{ product.get_absolute_url }}" class="book-card d-flex flex-column align-items-center text-center">
+                            <div class="book-card-img-container">
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.jpg' %}{% endif %}" class="book-card-img" alt="">
+                                {% if product.discount %}
+                                    <div class="discount-badge">{{ product.discount }}%</div>
+                                {% endif %}
+                            </div>
+                            <h5 class="book-card-title">{{ product.name }}</h5>
+                            {% if product.discount %}
+                                <div class="cart-discount d-flex gap-2">
+                                    <p class="line book-card-price">{{ product.price }}₽</p>
+                                    <p class="price pt-2 book-card-price">{{ product.sell_price }} ₽</p>
+                                </div>
+                            {% else %}
+                                <p class="book-card-price">{{ product.price }} ₽</p>
+                            {% endif %}
+                            <div class="book-card-body">
+                                <div class="flower-card-footer">
+                                    <form action="{% url 'cart:cart_add' product.id %}" class="qform" method="post">
+                                        <div class="cart-form">
+                                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                                            {{ cart_product_form }}
+                                            {% csrf_token %}
+                                        </div>
+                                        <button class="btn btn-cart w-100 add-to-cart" data-product-id="{{ product.id }}">
+                                            добавить
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+                                            

@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Книжная Лавка{% endblock title %}</title>
+    {% comment %}bootstrap.min.css из static/bootstrap/css{% endcomment %}
+    <link rel="stylesheet" href="{% static 'bootstrap\css\bootstrap.min.css' %}" />
+    {% comment %}base.css из static/css{% endcomment %}
+    <link rel="icon" href="{% static 'favicon.png' %}" type="image/png">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="img/x-icon">
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link
+        href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,800italic,700italic,600italic,400italic,300italic,800,700,600'
+        rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{% static 'css/klodaljkdanoad.css' %}?v={{ timestamp }}" />
+    <link href="{% static 'css/style.css' %}?v={{ timestamp }}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/font-awesome.css' %}?v={{ timestamp }}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/responsivet.css' %}?v={{ timestamp }}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/magnific-popup.css' %}?v={{ timestamp }}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/animate.css' %}?v={{ timestamp }}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/njdadada.css' %}?v={{ timestamp }}" rel="stylesheet" type="text/css">
+    
+
+    <script type="text/javascript" src="{% static 'js/jquery.1.8.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.isotope.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/wow.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/magnific-popup.js' %}"></script>
+    <script src="{% static 'contactform/contactform.js' %}"></script>
+</head>
+
+<body>
+    <nav class="main-nav-outer" id="test">
+        <!--main-nav-start-->
+        <div class="container"; style="color: black;";>
+            <ul class="main-nav">
+                <li class="clienti" style="font-size: 21px;"><a href="/">Клиенты</a></li>
+                <li><a href="#">ㅤㅤㅤㅤㅤ</a></li>
+                <li class="profil">
+                    {% if user.is_authenticated %}
+                            <a href="{% url 'users:profile' %}" class="m-2 profile-link">Профиль</a>
+                        {% else %}
+                            <a href="{% url 'users:login' %}" class="m-2 profile-link">Логин</a>
+                        {% endif %}
+                </li>
+                <div class="header-logo mx-auto">
+                    <a href="/shop">
+                        <img src="{% static 'img/безфон.png' %}" alt="" class="logofoto" />
+                    </a>
+                </div>
+                <li class="glavna" style="font-size: 21px;"><a href="/">Главная</a></li>
+                <li class="magaz" style="font-size: 21px"><a href="/shop">Магазин</a>
+                    <a class="carzina" href="{% url 'cart:cart_detail' %}" class="cart-link position-relative">
+                        <img src="{% static 'img/corzina5.png' %}" class="qert" alt="" />
+                        <span>{{ cart|length }}</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <a class="res-nav_click" href=""><i class="fa fa-bars"></i></a>
+        </div>
+        <img src="{% static 'img/gradient-non-auth.png' %}" class="promo-non-auth__gradient">
+    </nav>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+
+            $('#test').scrollToFixed();
+            $('.res-nav_click').click(function () {
+                $('.main-nav').slideToggle();
+                return false
+
+            });
+
+            $('.Portfolio-box').magnificPopup({
+                delegate: 'a',
+                type: 'image'
+            });
+
+        });
+    </script>
+
+    <script>
+        wow = new WOW({
+            animateClass: 'animated',
+            offset: 100
+        });
+        wow.init();
+    </script>
+
+
+    <script type="text/javascript">
+        $(window).load(function () {
+
+            $('.main-nav li a, .servicelink').bind('click', function (event) {
+                var $anchor = $(this);
+
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top - 102
+                }, 1500, 'easeInOutExpo');
+                /*
+                if you don't want to use the easing effects:
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top
+                }, 1000);
+                */
+                if ($(window).width() < 768) {
+                    $('.main-nav').hide();
+                }
+                event.preventDefault();
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+        $(window).load(function () {
+
+
+            var $container = $('.portfolioContainer'),
+                $body = $('body'),
+                colW = 375,
+                columns = null;
+
+
+            $container.isotope({
+                // disable window resizing
+                resizable: true,
+                masonry: {
+                    columnWidth: colW
+                }
+            });
+
+            $(window).smartresize(function () {
+                // check if columns has changed
+                var currentColumns = Math.floor(($body.width() - 30) / colW);
+                if (currentColumns !== columns) {
+                    // set new column count
+                    columns = currentColumns;
+                    // apply width to container manually, then trigger relayout
+                    $container.width(columns * colW)
+                        .isotope('reLayout');
+                }
+
+            }).smartresize(); // trigger resize to set container width
+            $('.portfolioFilter a').click(function () {
+                $('.portfolioFilter .current').removeClass('current');
+                $(this).addClass('current');
+
+                var selector = $(this).attr('data-filter');
+                $container.isotope({
+
+                    filter: selector,
+                });
+                return false;
+            });
+
+        });
+    </script>
+    {% block content %}
+    {% endblock content %}
+</body>
+
+</html>

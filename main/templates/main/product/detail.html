@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block extra_css %}
+{% endblock %}
+
+{% block title %}{{product.name }}{% endblock title %} 
+{% block content %}
+  <div class="book-detail-container">
+    <div class="book-main-section">
+      <div class="book-cover">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.jpg' %}{% endif %}" alt="{{ product.name }}" class="book-image"/>
+      </div>
+      <div class="book-info">
+        <h1 class="book-title" style="color: aliceblue;">{{ product.name }}</h1>
+        
+        <div class="book-meta">
+          <span class="book-category">{{ product.category }}</span>
+          <span class="book-rating">★ 5 (123 оценки)</span>
+        </div>
+        
+        <div class="book-actions">
+          {% if product.discount %}
+            <div class="book-price discounted">
+              <span class="current-price" style="color: aliceblue;">{{ product.sell_price }} ₽</span>
+            </div>
+          {% else %}
+            <div class="book-price">
+              <span class="current-price">{{ product.price }} ₽</span>
+            </div>
+          {% endif %}
+          
+          <form action="{% url 'cart:cart_add' product.id %}" method="post" class="add-to-cart-form">
+            <div class="quantity-selector">
+            </div>
+            {{ cart_product_form }}
+            {% csrf_token %}
+            <button type="submit" class="add-to-cart-btn">Добавить в корзину</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
